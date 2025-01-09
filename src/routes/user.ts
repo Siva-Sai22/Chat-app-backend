@@ -23,7 +23,10 @@ router.post("/login", async (req, res) => {
 
   const match = await bcrypt.compare(password, user.password);
   if (match) {
-    const accessToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET as string);
+    const accessToken = jwt.sign(
+      { email: user.email },
+      process.env.JWT_SECRET as string
+    );
     res.status(200).json({ username: user.name, accessToken });
   } else {
     res.sendStatus(401);
@@ -42,7 +45,7 @@ router.post("/signup", async (req, res) => {
 
   user = await createUser({ email, password: hashedPassword, name: username });
   const accessToken = jwt.sign({ email }, process.env.JWT_SECRET as string);
-  res.status(200).json({accessToken});
+  res.status(200).json({ accessToken });
 });
 
 router.get("/contacts", authorised, async (req, res) => {
