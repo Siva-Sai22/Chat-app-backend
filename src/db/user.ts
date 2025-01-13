@@ -63,7 +63,14 @@ export async function addContact(email: string, contactEmail: string) {
 export async function getUserContacts(email: string) {
   const user = await prisma.user.findUnique({
     where: { email },
-    include: { contacts: true },
+    include: {
+      contacts: {
+        select: {
+          email: true,
+          name: true,
+        },
+      },
+    },
   });
 
   return user?.contacts;
