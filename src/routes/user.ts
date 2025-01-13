@@ -1,13 +1,13 @@
 import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 import {
   createUser,
   getUserByEmail,
   getUserContacts,
   addContact,
 } from "../db/user.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
 import authorised from "../middlewares/authorised.js";
 
 const router = express.Router();

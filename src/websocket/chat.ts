@@ -7,6 +7,7 @@ type ChatMessage = {
   type: "message";
   to: string;
   content: string;
+  timestamp: Date;
 };
 
 export async function oneToOneChatHandler(ws: WebSocket, senderEmail: string) {
@@ -15,14 +16,14 @@ export async function oneToOneChatHandler(ws: WebSocket, senderEmail: string) {
       const message: ChatMessage = JSON.parse(data.toString());
       const recipientWs = getRecipientWs(message.to);
 
-      await createMessage(senderEmail, message.to, message.content);
+      await createMessage(senderEmail, message.to, message.content, message.timestamp);
 
       if (recipientWs) {
         recipientWs.send(
           JSON.stringify({
             from: senderEmail,
-            content: message.content,
-            timestamp: new Date().toISOString(),
+            message: message.content,
+            timestamp: message.timestamp,
           })
         );
       }

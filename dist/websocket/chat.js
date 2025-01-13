@@ -5,12 +5,12 @@ export async function oneToOneChatHandler(ws, senderEmail) {
         try {
             const message = JSON.parse(data.toString());
             const recipientWs = getRecipientWs(message.to);
-            await createMessage(senderEmail, message.to, message.content);
+            await createMessage(senderEmail, message.to, message.content, message.timestamp);
             if (recipientWs) {
                 recipientWs.send(JSON.stringify({
                     from: senderEmail,
-                    content: message.content,
-                    timestamp: new Date().toISOString(),
+                    message: message.content,
+                    timestamp: message.timestamp,
                 }));
             }
         }
