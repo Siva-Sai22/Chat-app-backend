@@ -42,11 +42,29 @@ export async function addContact(email, contactEmail) {
             },
         },
     });
+    // Remove after adding accept request
+    await prisma.user.update({
+        where: { email: contactEmail },
+        data: {
+            contacts: {
+                connect: {
+                    email,
+                },
+            },
+        },
+    });
 }
 export async function getUserContacts(email) {
     const user = await prisma.user.findUnique({
         where: { email },
-        include: { contacts: true },
+        include: {
+            contacts: {
+                select: {
+                    email: true,
+                    name: true,
+                },
+            },
+        },
     });
     return user?.contacts;
 }

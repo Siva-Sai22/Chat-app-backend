@@ -58,6 +58,18 @@ export async function addContact(email: string, contactEmail: string) {
       },
     },
   });
+
+  // Remove after adding accept request
+  await prisma.user.update({
+    where: { email: contactEmail },
+    data: {
+      contacts: {
+        connect: {
+          email,
+        },
+      },
+    },
+  });
 }
 
 export async function getUserContacts(email: string) {
