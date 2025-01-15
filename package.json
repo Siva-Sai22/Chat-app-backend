@@ -4,6 +4,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon dist/index.js",
+    "build:prisma": "prisma generate && prisma migrate deploy",
+    "build:ts": "tsc",
+    "build": "npm run build:prisma && npm run build:ts",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
